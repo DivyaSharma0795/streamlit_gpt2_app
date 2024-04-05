@@ -8,7 +8,10 @@ This project involves creating a web application using Streamlit and integrating
 -   Connect to an open source LLM (Hugging Face)
 -   Deploy model via Streamlit or other service (accessible via browser)
 
-## Steps to Replicate
+## Project Implementation
+This repository contains a Streamlit web application that uses a [Hugging Face](https://huggingface.co/) model to generate text based on user input. The application allows users to enter a text prompt and generate text based on that prompt using openAI's pre-trained language model, [gpt2](https://huggingface.co/openai-community/gpt2).
+
+## Steps to build a Streamlit app with a Hugging Face model
 
 1. **Install necessary libraries**: This project requires Streamlit and Transformers. You can install them using pip:
 
@@ -34,16 +37,19 @@ generator = pipeline('text-generation', model='gpt2')
 5. Create Streamlit app: Use Streamlit's functions to create the interface for your app. For example, you can create a text input for the user to enter some text, and a button to generate text. Here's an example:
 
 ```python
-input_text = st.text_input("Enter some text")
-generate_button = st.button("Generate")
+st.sidebar.title("Input Options")
+input_text = st.sidebar.text_input("Enter some text")
+generate_button = st.sidebar.button("Generate")
 ```
 
 6. Generate text based on user input: When the user clicks the "Generate" button, you can use the Hugging Face model to generate text based on the input. For example:
 
 ```python
 if generate_button:
-    generated_text = generator(input_text)[0]['generated_text']
-    st.write(generated_text)
+    with st.spinner("Generating text..."):
+        output_text = generator(input_text)[0]["generated_text"]
+    st.subheader("Generated Text:")
+    st.write(output_text)
 ```
 
 7. Run the Streamlit app: You can run the app using the following command:
